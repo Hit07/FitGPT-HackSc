@@ -10,7 +10,7 @@ from src.prompt_string import generate_prompt
 
 # Initialize the client
 client = OpenAI(
-    api_key="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")
+    api_key= API_KEY
 
 
 def get_chat_completion(prompt, model="gpt-4o-mini"):
