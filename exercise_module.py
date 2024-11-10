@@ -68,7 +68,7 @@ def process_exercise_data(exercise_history):
     exercise_details = map_msearch_results(exercise_names, response)
     exercise_context = ""
     for name, details in exercise_details.items():
-        exercise_context += f"Name: {name}\nEquipment: {details['equipment']}\nPrimary Muscles:{details['primaryMuscles']}\nSecondary Muscles:{details['secondaryMuscles']}\nCategory:{details['category']}\nLevel:{details['level']}\nMechanic:{details['mechanic']}\n"
+        exercise_context += f"Name: {name}\nEquipment: {details['equipment']}\nPrimary Muscles:{details['primaryMuscles']}\nSecondary Muscles:{details['secondaryMuscles']}\nCategory:{details['category']}\nLevel:{details['level']}\nMechanic:{details['mechanic']}\nImages:{details['images']}\n"
     exercises_worked = ""
     day_count = 1
     for day in recent_data:
