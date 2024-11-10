@@ -71,7 +71,8 @@ List of:
  - Lbs x reps (As a list) you recommend 
 - Any advice or insights such as reasoning
 - Give feedback on the previous data in an analytical manner that the user can keep in mind while working out -- for this look at all the data especially the body measurements data and explain using these metrics
-- A display text such as "Today we will work on...."
+- A display text such as "Today we will work on....
+- Also 'must' include image of the workout form the image which is give as prompt"
 
 Note the following while generating the response:
 1. Number of exercises must be reasonable and proportional to the number of exercises the user is already working out.
@@ -146,7 +147,7 @@ The below is an example JSON of the expected response, follow the JSON schema of
 # print(default_string_end) concat all of these strings and return them as a response
 
 response =  default_string_start + "\n\nWorkout History:\n" + workout_history + "\n\nExercise Context:\n" + exercise_context + "\n\nRolling Averages:\n" + avg_data + "\n\nFeature context:\n" + description + "\n\n" + default_string_end
-# print(response)
+print(response)
 # You can now use these rolling_averages in your recommendation function
 
 
