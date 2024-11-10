@@ -1,0 +1,31 @@
+avg_data = """
+active_energy: 471kcal
+apple_exercise_time: 60min
+apple_stand_hour: 5count
+apple_stand_time: 103min
+basal_energy_burned: 1327kcal
+blood_oxygen_saturation: 48%
+body_fat_percentage: 1%
+body_mass_index: 2count
+environmental_audio_exposure: 616dBASPL
+flights_climbed: 9count
+headphone_audio_exposure: 1125dBASPL
+heart_rate: 0count/min
+heart_rate_variability: 70ms
+lean_body_mass: 11lb
+physical_effort: 329kcal/hr·kg
+resting_heart_rate: 26count/min
+six_minute_walking_test_distance: 50m
+stair_speed_down: 1ft/s
+stair_speed_up: 1ft/s
+step_count: 8280count
+time_in_daylight: 37min
+vo2_max: 22ml/(kg·min)
+walking_asymmetry_percentage: 19%
+walking_double_support_percentage: 632%
+walking_heart_rate_average: 88count/min
+walking_running_distance: 3mi
+walking_speed: 65mi/hr
+walking_step_length: 614in
+weight_body_mass: 13lb
+"""
