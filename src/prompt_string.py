@@ -1,3 +1,5 @@
+import json
+
 import requests
 
 from src.exercise_module import process_exercise_data
@@ -33,15 +35,7 @@ def process_firebase_data(data):
 
 
 # Main code
-data = get_firebase_data()
-processed_data = process_firebase_data(data)
-exercise_history = processed_data['exercise_history']
-user_info = processed_data['user_info']
-#Read field_description.txt and print the contents
-with open('field_description.txt', 'r') as file:
-    description = file.read()
 
-workout_history, exercise_context = process_exercise_data(exercise_history)
 
 default_string_start = '''You are a fitness advisor for an individual, recommending workouts for an individual based on the following factors:
 1. Their workout history
@@ -71,8 +65,7 @@ List of:
  - Lbs x reps (As a list) you recommend 
 - Any advice or insights such as reasoning
 - Give feedback on the previous data in an analytical manner that the user can keep in mind while working out -- for this look at all the data especially the body measurements data and explain using these metrics
-- A display text such as "Today we will work on....
-- Also 'must' include image of the workout form the image which is give as prompt"
+- A display text such as "Today we will work on...."
 
 Note the following while generating the response:
 1. Number of exercises must be reasonable and proportional to the number of exercises the user is already working out.
@@ -87,7 +80,6 @@ Note the following while generating the response:
 - feedback_on_previous_data
 - body_measurement_insight
 - display_text
-- Images
 5. The response must be a valid JSON structure ONLY, DO NOT return a list of a singleton object and always adhere to JSON standard and the keys mentioned above
 The below is an example JSON of the expected response, follow the JSON schema of the example strictly:
 ```
@@ -140,14 +132,29 @@ The below is an example JSON of the expected response, follow the JSON schema of
 # print(workout_history)
 # print("\nExercise Context:")
 # print(exercise_context)
+# print("\n exercise details:")
+# Covert exercise_details to string using json.dumps
+
+# print(exercise_details)
 # print("\nRolling Averages:")
 # print(avg_data)
 # print("\n Feature context:")
 # print(description)
 # print(default_string_end) concat all of these strings and return them as a response
 
-response =  default_string_start + "\n\nWorkout History:\n" + workout_history + "\n\nExercise Context:\n" + exercise_context + "\n\nRolling Averages:\n" + avg_data + "\n\nFeature context:\n" + description + "\n\n" + default_string_end
-print(response)
+# print(response)
 # You can now use these rolling_averages in your recommendation function
 
 
+def generate_prompt():
+    data = get_firebase_data()
+    processed_data = process_firebase_data(data)
+    exercise_history = processed_data['exercise_history']
+    user_info = processed_data['user_info']
+    # Read field_description.txt and print the contents
+    with open('field_description.txt', 'r') as file:
+        description = file.read()
+
+    workout_history, exercise_context, exercise_details = process_exercise_data(exercise_history)
+    response = default_string_start + "\n\nWorkout History:\n" + workout_history + "\n\nExercise Context:\n" + exercise_context + "\n\nExercise Details:\n" + json.dumps(exercise_details) + "\n\nRolling Averages:\n" + avg_data + "\n\nFeature context:\n" + description + "\n\n" + default_string_end
+    return response, exercise_details

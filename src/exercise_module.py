@@ -83,4 +83,4 @@ def process_exercise_data(exercise_history):
             exercises_worked += f"Name: {exercise['title']}\nSets:\n{processed_sets}\n"
         exercises_worked += "\n"
         day_count += 1
-    return exercises_worked, exercise_context
+    return exercises_worked, exercise_context, exercise_details
