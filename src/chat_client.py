@@ -1,16 +1,14 @@
 # chat_client.py
 import json
 
-import requests
-from flask import Flask, jsonify, request
-
+from flask import Flask
 from flask_cors import CORS
 from openai import OpenAI
+
 from src.prompt_string import generate_prompt
 
 # Initialize the client
-client = OpenAI(
-    api_key="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")
+client = OpenAI(api_key=KEY)
 
 
 def get_chat_completion(prompt, model="gpt-4o-mini"):
@@ -31,13 +29,21 @@ def get_chat_completion(prompt, model="gpt-4o-mini"):
         print(f"An error occurred: {str(e)}")
         return None
 
+
 # Initialize Flask app
 app = Flask(__name__)
 
 # Enable CORS for frontend to access backend
-CORS(app)
+CORS(
+    app,
+    resources={r"/*": {"origins": "*"}},
+    supports_credentials=True,
+    allow_headers="*",
+    methods=["GET", "POST", "OPTIONS", "PUT", "DELETE"]
+)
 
-@app.route('/api/heart-data', methods=['POST'])
+
+@app.route('/api/heart-data', methods=['POST', 'OPTIONS'])
 def main():
     # print(request.get_json())
     # Take the user input and generate a response
@@ -45,7 +51,7 @@ def main():
     if response:
         # data= requests.get('http://127.0.0.1:5000/api/heart-data')
         output_openai = get_chat_completion(response)
-        json_data = output_openai.replace("```","").replace("json","").replace("\n","").replace("   ","")
+        json_data = output_openai.replace("```", "").replace("json", "").replace("\n", "").replace("   ", "")
         json_data = json.loads(json_data)
         for ele in json_data['recommended_sets_and_reps']:
             if ele['exercise'] in exercise_details:
@@ -58,9 +64,12 @@ def main():
 
         # print("Main Output:",output_openai)
         return json_data
+
+
 @app.route('/test')
 def test():
     return "Test route working"
+
 
 if __name__ == "__main__":
     app.run(debug=True)

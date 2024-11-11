@@ -2,7 +2,7 @@ import json
 
 import requests
 
-from src.exercise_module import process_exercise_data
+from exercise_module import process_exercise_data
 from ten_days_average import avg_data
 
 
@@ -14,6 +14,7 @@ def get_firebase_data():
     else:
         print(f"Error fetching Firebase data: {response.status_code}")
         return None
+
 
 def process_firebase_data(data):
     processed_data = {}
@@ -31,7 +32,6 @@ def process_firebase_data(data):
         ]
     }
     return processed_data
-
 
 
 # Main code
@@ -58,7 +58,6 @@ User Ans: Kind of, I need to run a few errands today
 3. How much time do you have for a workout today ?
 User Ans: 45 mins to 1 hour'''
 
-
 default_string_end = '''Provide the response in the following format in JSON:
 List of:
  - Workout Name I have to do  
@@ -81,7 +80,7 @@ Note the following while generating the response:
 - body_measurement_insight
 - display_text
 5. The response must be a valid JSON structure ONLY, DO NOT return a list of a singleton object and always adhere to JSON standard and the keys mentioned above
-The below is an example JSON of the expected response, follow the JSON schema of the example strictly:
+The below is an example JSON of the expected response, follow the JSON schema of the example strictly. (ONLY the schma must be followed not the data). Dont just recommend the same workouts, be reasonable and suggest the right workout
 ```
 {
   "workout_name": "Shoulder & Upper Body Recovery",
@@ -127,6 +126,8 @@ The below is an example JSON of the expected response, follow the JSON schema of
 ```
 
 '''
+
+
 # print(default_string_start)
 # print("Workout History:")
 # print(workout_history)
@@ -156,5 +157,6 @@ def generate_prompt():
         description = file.read()
 
     workout_history, exercise_context, exercise_details = process_exercise_data(exercise_history)
-    response = default_string_start + "\n\nWorkout History:\n" + workout_history + "\n\nExercise Context:\n" + exercise_context + "\n\nExercise Details:\n" + json.dumps(exercise_details) + "\n\nRolling Averages:\n" + avg_data + "\n\nFeature context:\n" + description + "\n\n" + default_string_end
+    response = default_string_start + "\n\nWorkout History:\n" + workout_history + "\n\nExercise Context:\n" + exercise_context + "\n\nExercise Details:\n" + json.dumps(
+        exercise_details) + "\n\nRolling Averages:\n" + avg_data + "\n\nFeature context:\n" + description + "\n\n" + default_string_end
     return response, exercise_details
